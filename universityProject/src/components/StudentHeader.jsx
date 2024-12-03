@@ -3,11 +3,11 @@ import React from 'react'
 const StudentHeader = () => {
   return (
     <>
-      <div>
-        <div className='nav flex gap-5'>
-            <div>hello mollo</div>
+      <div className='mb-3'>
+        <div className='nav'>
+            <div>Nikita</div>
             <div >
-            <ul className='flex gap-4 items-end'>
+            <ul className=' flex gap-4 items-end'>
                 <li><Link to="/">Home</Link></li>
                 <li><Link to="/Projects">Projects</Link></li>
                <li><Link to="/SignUp">Sign Up</Link></li>

@@ -1,10 +1,12 @@
 import React from 'react'
-import StudentHeader from './components/studentHeader'
+import StudentHeader from './components/StudentHeader'
+import Footer from './components/footer';
  import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import SignUp from './pages/SignUp';
 import Home from "./pages/Home"
 import Projects from "./pages/Projects"
 import ResearchDoubts from "./pages/ResearchDoubts"
+import Body from './components/body';
 const App = () => {
   return (
    <Router>
@@ -15,8 +17,11 @@ const App = () => {
     <Route path="/SignUp" element={<SignUp/>}/>
       <Route path="/ResearchDoubts" element={<ResearchDoubts/>}/>
     </Routes>
+    <Body/>
+    <Footer/>
    </Router>
   )
 }
 
 export default App
+

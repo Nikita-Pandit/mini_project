@@ -7,3 +7,5 @@ git merge feature/navbar
 Hello mollo
 git branch -d feature/navbar
 git switch -C feature/add-footer
+
+mongodb+srv://22054434:nikitapandi@cluster0.vy4gt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
