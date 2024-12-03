@@ -4,3 +4,4 @@ rm -rf .git(to delete github)
 git branch feature/navbar
 git branch
 git merge feature/navbar
+Hello mollo
