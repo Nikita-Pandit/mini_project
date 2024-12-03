@@ -1,0 +1,5 @@
+git log --oneline(to see saved checked points)
+git log(for more details)
+rm -rf .git(to delete github)
+git branch feature/navbar
+git branch
