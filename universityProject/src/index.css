@@ -9,6 +9,18 @@
   color:#ffff;  
   box-sizing: border-box;
 }
+.card{
+  width: 20vw; border-radius: 20px;
+  /* height:200px; */
+}
+.student-name{
+  font-size: 23px;
+  text-align: center; margin-top: 2px;
+}
+.more-info{
+  margin-top: 10px;
+  text-align: center;
+}
 body{
   margin:30px;
   background-color: #111;
