@@ -11,15 +11,30 @@
 }
 .card{
   width: 20vw; border-radius: 20px;
-  /* height:200px; */
 }
 .student-name{
   font-size: 23px;
-  text-align: center; margin-top: 2px;
+  text-align: center; margin-top: 10px;
 }
 .more-info{
   margin-top: 10px;
   text-align: center;
+}
+.profile-container{
+  display: flex;
+gap:10vw;
+  /* gap:20px; */
+}
+.profile-container .left-profile{
+  width:30vw;
+}
+.profile-container .right-profile-info{
+  border:2px solid rgb(57, 154, 181) ;
+}
+.input-links{
+  text-align: center;
+  width:20vw; padding: 5px;
+  border-radius: 10px; outline:none;
 }
 body{
   margin:30px;
@@ -45,8 +60,14 @@ ul li:hover{
   height:80vh;
    /* background-color: green;  */
  }
-
  .footer{
   text-align: center;
  margin-bottom: 3vh;
  }
+ textarea{
+  border:2px solid rgb(57, 154, 181) ;
+ }
+.image-profile-container{
+  border-color: #111;
+  height:30vh;
+}
