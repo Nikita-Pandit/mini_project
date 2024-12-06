@@ -16,17 +16,21 @@
   font-size: 23px;
   text-align: center; margin-top: 10px;
 }
+
 .more-info{
   margin-top: 10px;
   text-align: center;
 }
 .profile-container{
   display: flex;
-gap:10vw;
+gap:4vw;
   /* gap:20px; */
 }
 .profile-container .left-profile{
-  width:30vw;
+  width: 30vw;
+    /* background-color: red; */
+    padding-top: 7.8rem;
+    text-align: center;
 }
 .profile-container .right-profile-info{
   border:2px solid rgb(57, 154, 181) ;
@@ -48,10 +52,11 @@ body{
 ul li:hover{
   color:blue;
 }
-.form .input-field{
+.input-field{
   border:2px solid rgb(57, 154, 181) ;
   border-radius: 10px; outline:none;
   text-align:center;
+  width:20vw;
 }
 .input-p{
   font-size: 14px;
