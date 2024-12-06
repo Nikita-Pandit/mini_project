@@ -52,6 +52,7 @@ ul li:hover{
   border:2px solid rgb(57, 154, 181) ;
   border-radius: 10px; outline:none;
   text-align:center;
+  width:20vw;
 }
 .input-p{
   font-size: 14px;

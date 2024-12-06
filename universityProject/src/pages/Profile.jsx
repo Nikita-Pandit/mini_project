@@ -4,16 +4,17 @@ const Profile = () => {
   return (
     <>
      <div className='profile-container p-5 bg-zinc-700 flex'>
-        <div className=' left-profile  p-3'>
+        <div className=' left-profile bg-red-500 p-3 mt-20'>
         <img className='mt-5 p-5' src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR9SRRmhH4X5N2e4QalcoxVbzYsD44C-sQv-w&s" alt="" />
         <h1 className="student-name">Nikita Pandit</h1>
         <h1>Nepal</h1>
         <h1>Contact: 8797296088</h1>
+        <h1>Email: 22054789@kiit.ac.in</h1>
         
         </div>
         <div className='bg-zinc-500  border-2 rounded-md outline-none w-full right-profile-info p-5'>
             <h1 className='text-3xl text-start mb-3'>write short bio</h1>
-            <textarea className='outline-none w-full border-2 rounded-md' name="" id=""></textarea>
+            <textarea className='outline- bg-zinc-700 w-full border-2 rounded-md' name="" id=""></textarea>
             <h1 className='text-2xl text-start mt-3  mb-2'>Social media links</h1>
 
             <div className='border-blue-300 flex flex-row  bg-zinc-700 p-5 border-2 rounded-md outline-none'>
@@ -32,7 +33,7 @@ const Profile = () => {
 
             <div>
                 <h1 className='text-2xl text-start mt-3  mb-2'>Ongoing Projects</h1>
-                <textarea  className='outline-none w-full border-2 rounded-md' name="" id=""></textarea>
+                <textarea  className='outline-none bg-zinc-700 w-full border-2 rounded-md' name="" id=""></textarea>
             </div>
     
             <h1 className='text-2xl text-start mt-3  mb-2'>Skills</h1>

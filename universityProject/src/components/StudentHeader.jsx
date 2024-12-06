@@ -5,7 +5,7 @@ const StudentHeader = () => {
     <>
       <div className='mb-3'>
         <div className='nav'>
-            <div>Nikita</div>
+            <div>ABC</div>
             <div >
             <ul className=' flex gap-4 items-end'>
                 <li><Link to="/">Home</Link></li>
