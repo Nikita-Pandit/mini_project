@@ -8,8 +8,6 @@ import Projects from "./pages/Projects"
 import ResearchDoubts from "./pages/ResearchDoubts"
 import Profile from './pages/profile';
 import Body from './components/body';
-import AboutUs from './pages/AboutUs';
-import Login from './pages/Login';
 const App = () => {
 
   return (
