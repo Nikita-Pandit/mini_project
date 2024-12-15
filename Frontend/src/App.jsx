@@ -6,8 +6,10 @@ import SignUp from './pages/SignUp';
 import Home from "./pages/Home"
 import Projects from "./pages/Projects"
 import ResearchDoubts from "./pages/ResearchDoubts"
-import Profile from './pages/profile';
+import Profile from './pages/Profile';
 import Body from './components/body';
+import Login from "./pages/Login"
+
 const App = () => {
 
   return (

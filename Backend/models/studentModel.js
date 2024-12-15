@@ -4,8 +4,9 @@
     name:String,
     email:String,
     contact:Number,
-    branch:String,
-    currentYear:Number
+   password:String,
+   isVerified: { type: Boolean, default: false },
+   verificationToken: { type: String }
   })
-const studentModel=mongoose.model("student",studentSchema)
+const studentModel=mongoose.model("students",studentSchema)
 module.exports=studentModel
