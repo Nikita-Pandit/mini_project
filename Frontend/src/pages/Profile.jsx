@@ -19,17 +19,6 @@ const Profile = () => {
   const [image,setImage]=useState(false)
   //const userProfile = JSON.parse(localStorage.getItem('userProfile'))
   const [profile,setProfile]=useState({
-    // Bio:userProfile.Bio || "",
-    // github: userProfile.github || "",
-    // instagram: userProfile.instagram || "",
-    // linkedin: userProfile.linkedin || "",
-    // twitter: userProfile.twitter || "",
-    // leetcode: userProfile.leetcode || "",
-    // projects: userProfile.projects || "",
-    // skills: userProfile.skills || "",
-    // location:userProfile.location || "",
-    // branch:userProfile.branch || "",
-    // selectYear:userProfile.selectYear || ""
     Bio:"",
     github: "",
     instagram: "",
@@ -70,27 +59,30 @@ if(!image){
   return null;
 }
 const formData=new FormData()
-console.log(typeof(formData))
+//console.log(typeof(formData))
 Object.keys(profile).forEach((key)=>{
   formData.append(key,profile[key])
 })
+
+
 formData.append("image",image)
 //localStorage.setItem('userProfile',JSON.stringify(profile))
-console.log("Middle ware")
+//console.log("Middle ware")
     try {
-      const response = await axios.post('http://localhost:20000/api/Profile',formData,{
-        headers: {
-            "Content-Type": "multipart/form-data",
-        },
-    });
+      const response = await axios.post(`http://localhost:20000/api/Profile?email=${studentEmail}`,formData
+    //   {
+    //     headers: {
+    //         "Content-Type": "multipart/form-data",
+    //     },
+    // }
+  );
+
     console.log("Profile saved:", response.data);
     toast.success('profile info completed ', {
       style: { color: "#ff5722" } 
      
     });
-// const uploadedImageUrl=`http://localhost:20000/uploads/${response.data.filename}`
-//     setImage(uploadedImageUrl)
-setImage(false)
+
   } 
   catch (error) {
     console.error("Error saving profile:", error);

@@ -20,7 +20,8 @@ const loginRoutes=require("./routes/loginRoutes")
 const profileRoutes=require("./routes/profileRoutes")
 
 
-const mongoose=require("mongoose")
+const mongoose=require("mongoose");
+const studentMoreInfo = require("./models/studentMoreInfo");
 mongoose.connect(process.env.MONGO_URL)
 .then(()=>console.log("MongoDB connected successfully"))
 .catch(err => console.error('Error connecting to MongoDB:', err));
@@ -69,7 +70,7 @@ app.get('/api/student/:id', async (req, res) => {
   try {
     // Find the student by ID in the database
     const student = await studentModel.findById(id);
-    
+    //const moreinfo=await studentMoreInfo
     if (!student) {
       return res.status(404).json({ message: 'Student not found' });
     }
