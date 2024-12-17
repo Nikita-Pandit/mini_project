@@ -3,7 +3,8 @@ import axios from "axios"
 import { Link, useLocation } from 'react-router-dom'
 import { use } from 'react'
 import { useNavigate } from 'react-router-dom'
-
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const SignUp = () => {
   const location=useLocation()
   const navigate = useNavigate()
@@ -14,7 +15,6 @@ const SignUp = () => {
   
     if (id) {
       console.log('Id received from URL:', id);
-     // localStorage.setItem('userId', id);
       navigate("/Profile", { state: { id } });
 
       // Handle the token (e.g., validate or display to the user)
@@ -24,45 +24,31 @@ const SignUp = () => {
   const[email,setEmail]=useState("")
   const[contact,setContact]=useState("")
   const[password,setPassword]=useState("")
-  
+  // const [alertMessage, setAlertMessage] = useState('');
 
  const handleSubmit=async (e)=>{
   e.preventDefault()
   // axios.post("http://localhost:20000/SignUp",{name,email,contact,password})
   try {
-    const response = await axios.post('http://localhost:20000/SignUp',{name,email,contact,password});
-    alert('Verification email sent! Please check your inbox.');
-
-
-  //   .then(result=>{
-  //     console.log("Your result is",result)
-
-  //  })
-  //   .catch(err=>console.log(err))
-  // navigate("/Home")
+    const response = await axios.post('http://localhost:20000/api/SignUp',{name,email,contact,password});
+  //  alert('Verification email sent! Please check your inbox.');
+  toast.success('Verification email sent! Please check your inbox.', {
+    style: { color: "#ff5722" } 
+  });
+  
   
 } catch (error) {
     console.error('Error sending verification email:', error);
-    alert('Failed to send verification email.');
+   // alert('Failed to send verification email.');
+   toast.error('Failed to send verification email.',{  className: 'custom-toast'});
 }
 
- }
- /*const handleClick=async ()=>{
-  console.log("Hello ")
-  try {
-    const response = await axios.post('http://localhost:20000/sendVerificationEmail', { email });
-    alert('Verification email sent! Please check your inbox.');
-} catch (error) {
-    console.error('Error sending verification email:', error);
-    alert('Failed to send verification email.');
-}
- }
-*/
 
-
+ }
 
   return (
     <>
+      <ToastContainer />
 
     <div className='flex form-container items-center justify-center'>
       <div className='border-2 bg-zinc-700 rounded-md p-5 border-blue-300'>
@@ -88,6 +74,6 @@ const SignUp = () => {
     </div>
     </>
   )
-}
 
+}
 export default SignUp

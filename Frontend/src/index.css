@@ -76,3 +76,7 @@ ul li:hover{
   border-color: #111;
   height:30vh;
 }
+.custom-toast {
+  color: #111; /* Replace with your desired text color */
+}
+
