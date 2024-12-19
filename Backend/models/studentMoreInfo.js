@@ -23,14 +23,15 @@
     type:String,
    // required:true
   },
-  selectyear:{
+  selectYear:{
     type:String,
     //required:true
   },
   image:{
     type:String,
     //required:true
-  }
+  },
+  studentID:String
   })
 const studentMoreInfo=mongoose.model("studentMoreInfo",studentMoreInfoSchema)
 module.exports=studentMoreInfo

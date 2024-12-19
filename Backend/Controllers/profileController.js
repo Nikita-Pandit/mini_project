@@ -1,10 +1,11 @@
 
 const { JsonWebTokenError } = require("jsonwebtoken");
-const studentMoreInfo= require("../models/studentMoreInfo")
-const profileController = async (req, res) => {
-    console.log("Request Body:", req.body);
+const studentMoreInfo= require("../models/studentMoreInfo");
+const { get } = require("mongoose");
+const createProfileInfo = async (req, res) => {
+  console.log("Request Body:", req.body);
 console.log("Uploaded File:", req.file)
-const {email}=req.query
+const {id}=req.params;
   const {Bio, github,linkedin,leetcode,twitter,instagram,projects,skills,location,branch,selectYear}=req.body
   try {
       // let image_filename = `${req.file.filename}`
@@ -12,6 +13,7 @@ const {email}=req.query
 if (!image_filename) {
     return res.status(400).json({ success: false, message: "Image upload failed" });
 }
+
       const profile = new studentMoreInfo({
     Bio,
     github,
@@ -24,21 +26,32 @@ if (!image_filename) {
     location,
     branch,
     selectYear,
-    image: image_filename
+    image:  `/uploads/${image_filename}`,
+    studentID:id
     })
 
     await profile.save();
-
-const moreInfo= await studentMoreInfo.findOne({email:email})
-if(!moreInfo){
-  console.log("profile email not matched")
-}
-    res.status(200).json({moreInfo:JSON.stringify(moreInfo)});
-
-      res.status(200).json({ success: true, message: "Image uploaded"})
+  res.json({success:true,message:"Profile info saved in the db successfully."})
   } catch (error) {
-    console.error("Error in profileController:", error.message);
+    console.error("Error in saving profile in the database:", error.message);
       res.json({ success: false, message: "Error" })
   }
 }
-module.exports={profileController} 
+
+
+
+const getProfileInfo=async (req,res)=>{
+const {id}=req.params;
+try{
+  const moreInfo= await studentMoreInfo.findOne({studentID:id})
+  if(!moreInfo){
+    return res.status(404).json({ success: false, message: "Profile info not matched from the database." });
+  }
+  res.status(200).json({ success: true, moreInfo});
+}
+catch(error){
+  console.error("Error in getProfileInfo:", error.message);
+  res.status(500).json({ success: false, message: "An error occurred while fetching the profile info from the db.", error: error.message });
+}
+}
+module.exports={createProfileInfo,getProfileInfo} 
