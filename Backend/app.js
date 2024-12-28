@@ -1,10 +1,10 @@
 const express=require("express")
 const app=express()
-const nodemailer = require('nodemailer');
+// const nodemailer = require('nodemailer');
 const dotenv=require("dotenv")
 const config=dotenv.config()
 const studentModel=require("./models/studentModel")
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT;
 
 const cors=require("cors")
 app.use(cors())
@@ -18,10 +18,12 @@ app.use(express.json())
 const signupRoutes=require("./routes/signupRoutes")
 const loginRoutes=require("./routes/loginRoutes")
 const profileRoutes=require("./routes/profileRoutes")
-
+const projectRoutes=require("./routes/projectRoutes")
 
 const mongoose=require("mongoose");
+
 const studentMoreInfo = require("./models/studentMoreInfo");
+
 mongoose.connect(process.env.MONGO_URL)
 .then(()=>console.log("MongoDB connected successfully"))
 .catch(err => console.error('Error connecting to MongoDB:', err));
@@ -29,11 +31,10 @@ mongoose.connect(process.env.MONGO_URL)
 app.use("/api",signupRoutes)
 app.use("/api",loginRoutes)
 app.use("/api",profileRoutes)
-
+app.use("/api",projectRoutes)
 
 app.get('/verify', async (req, res) => {
   const { token } = req.query;
-
   try {
     console.log("verify route 2")
       // Find the user with the token

@@ -1,7 +1,9 @@
+
 import React, { useEffect, useState } from 'react'
+// prevProfile is the previous state of the profile object before the update
 import { useLocation } from 'react-router-dom';
 import axios from "axios"
-import { set } from 'mongoose'
+// import { set } from 'mongoose'
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {assets,url} from '../assets/assets'
@@ -19,6 +21,7 @@ const Profile = () => {
   const [studentContact, setStudentContact] = useState('');
   const [image,setImage]=useState(false)
   const [profile,setProfile]=useState({
+    name:"",
     Bio:"",
     github: "",
     instagram: "",
@@ -27,6 +30,7 @@ const Profile = () => {
     leetcode: "",
     projects:  "",
     skills: "",
+    domain:"",
     location:"",
     branch:"",
     selectYear:"",
@@ -40,40 +44,32 @@ const Profile = () => {
       setStudentEmail(response.data.email);
       setStudentContact(response.data.contact);
       console.log(studentEmail) // Update student name from API response
-    } catch (error) {
+      setProfile(prevProfile => ({
+        ...prevProfile,
+        name: response.data.name
+      }));
+      
+    } 
+    catch (error) {
       console.error('Error fetching student name:', error);
     }
   };
 
   const fetchProfileInfo=async()=>{
+    console.log("profile section")
     try{
       const response=await axios.get(`http://localhost:20000/api/Profile/${id}`)
       console.log(response.data.moreInfo)
-      // if(response.data.moreInfo)
-      setProfile(response.data.moreInfo);      
-      // setProfile({
-      //   Bio: response.data.moreInfo.Bio || "",
-      //   github: response.data.moreInfo.github || "",
-      //   instagram: response.data.moreInfo.instagram || "",
-      //   linkedin: response.data.moreInfo.linkedin || "",
-      //   twitter: response.data.moreInfo.twitter || "",
-      //   leetcode: response.data.moreInfo.leetcode || "",
-      //   projects: response.data.moreInfo.projects || "",
-      //   skills: response.data.moreInfo.skills || "",
-      //   location: response.data.moreInfo.location || "",
-      //   branch: response.data.moreInfo.branch || "",
-      //   selectYear: response.data.moreInfo.selectYear || ""
-      // });
-    
-    
-        // toast.success('profile data fetched successfully', {
-        //   style: { color: "#ff5722" } 
-         
-        // });
-        if (response.data.moreInfo.image) {
-          console.log(response.data.moreInfo.image)
-          setImage(`http://localhost:20000/${response.data.moreInfo.image}`)// Set saved image path
-        }
+      setProfile(response.data.moreInfo);   
+     setProfile(prevProfile => ({
+      ...prevProfile,
+      ...response.data.moreInfo // Merge f;'
+      // k etched profile info
+    }));   
+        // if (response.data.moreInfo.image) {
+        //  console.log(response.data.moreInfo.image)
+        //   setImage(`http://localhost:20000/${response.data.moreInfo.image}`)// Set saved image path
+        // }
     }
     catch (error) {
       console.error("Error in fetching profile info:", error);
@@ -93,6 +89,7 @@ const Profile = () => {
   const handleSave=async (e)=>{
     
 e.preventDefault()
+//console.log("handlesave")
 if(!image){
   toast.error("Image not selected")
   return null;
@@ -143,11 +140,8 @@ const handleChange=(e)=>{
   </h4>
    <input type="file" accept='image/*' id="image" hidden onChange={(e)=>{setImage(e.target.files[0]); e.target.value=''}}/> 
  <label htmlFor="image">
-                        {/* <img src={!image ? assets.upload_area : URL.createObjectURL(image)} alt="Uploaded Profile" /> */}
-                        <img 
-  src={typeof image === 'string' ? assets.upload_area: image && URL.createObjectURL(image)} 
-  alt="Uploaded Profile" 
-/>
+                         <img src={!image ? assets.upload_area : URL.createObjectURL(image)} alt="Uploaded Profile" /> 
+                        {/* <img src={typeof image === 'string' ? assets.upload_area: image && URL.createObjectURL(image)} alt="Uploaded Profile" /> */}
           
                     </label>
   <div className='flex flex-col gap-3'>
@@ -191,6 +185,10 @@ const handleChange=(e)=>{
                 <textarea  onChange={handleChange} className='bg-zinc-600 outline-none w-full border-2 rounded-md' name="skills" value={profile.skills}  required id=""></textarea>
             </div>
 
+            <h1 className='text-2xl text-start mt-3  mb-2'>Domain</h1>
+            <div>
+                <textarea  onChange={handleChange} className='bg-zinc-600 outline-none w-full border-2 rounded-md' name="domain" value={profile.domain}  required id=""></textarea>
+            </div>
 
         </div>
      </div>

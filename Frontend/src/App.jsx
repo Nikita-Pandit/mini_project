@@ -5,10 +5,9 @@ import Footer from './components/footer';
 import SignUp from './pages/SignUp';
 import Home from "./pages/Home"
 import Projects from "./pages/Projects"
-import { Link } from 'react-router-dom'
 import ResearchDoubts from "./pages/ResearchDoubts"
 import Profile from "./pages/Profile";
-
+import ViewMoreDetails from './pages/ViewMoreDetails';
 // import Body from './components/body';
 import Login from "./pages/Login"
 
@@ -24,7 +23,8 @@ const App = () => {
     <Route path="/Projects" element={<Projects/>}/>
     <Route path="/SignUp" element={<SignUp/>}/>
     <Route path="/Login" element={<Login/>}/>
-      <Route path="/ResearchDoubts" element={<ResearchDoubts/>}/>
+    <Route path="/ResearchDoubts" element={<ResearchDoubts/>}/>
+    <Route path="/ViewMoreDetails" element={<ViewMoreDetails/>}/>
     </Routes>
     {/* <Body/> */}
     <Footer/>

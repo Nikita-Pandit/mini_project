@@ -13,10 +13,14 @@ const Login = () => {
 e.preventDefault()
     try {
       const response = await axios.post('http://localhost:20000/api/Login',{email,password});
-      console.log('Login successful');
-    toast.success('Login Successful', {
-      style: { color: "#ff5722" } 
-    }); 
+      // console.log('Login successful');
+    // toast.success('Login Successful', {
+    //   style: { color: "#ff5722" } 
+    // }); 
+    console.log(response.data)
+    if(response.data==="Login Successful"){
+      navigate("/Home")
+    }
   }
    catch (error) {
       console.error('Error sending verification email:', error);

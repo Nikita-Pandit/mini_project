@@ -15,6 +15,9 @@
     type:String,
     //required:true
   },
+  domain:{
+    type:String
+  },
   location:{
     type:String,
     ///required:true
@@ -31,7 +34,8 @@
     type:String,
     //required:true
   },
-  studentID:String
+  studentID:String,
+  name:String,
   })
 const studentMoreInfo=mongoose.model("studentMoreInfo",studentMoreInfoSchema)
 module.exports=studentMoreInfo
