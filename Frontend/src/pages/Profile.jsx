@@ -63,13 +63,8 @@ const Profile = () => {
       setProfile(response.data.moreInfo);   
      setProfile(prevProfile => ({
       ...prevProfile,
-      ...response.data.moreInfo // Merge f;'
-      // k etched profile info
+      ...response.data.moreInfo 
     }));   
-        // if (response.data.moreInfo.image) {
-        //  console.log(response.data.moreInfo.image)
-        //   setImage(`http://localhost:20000/${response.data.moreInfo.image}`)// Set saved image path
-        // }
     }
     catch (error) {
       console.error("Error in fetching profile info:", error);

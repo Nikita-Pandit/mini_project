@@ -16,7 +16,6 @@ console.log(id);
   const [studentContact, setStudentContact] = useState('');
   const [image,setImage]=useState(false)
   const [profile,setProfile]=useState({
-    name:"",
     Bio:"",
     github: "",
     instagram: "",
@@ -37,20 +36,35 @@ console.log(id);
       setStudentEmail(response.data.email);
       setStudentContact(response.data.contact);
       console.log(studentEmail) // Update student name from API response
-      setProfile(prevProfile => ({
-        ...prevProfile,
-        name: response.data.name
-      }));
+      // setProfile(prevProfile => ({
+      //   ...prevProfile,
+      //   name: response.data.name
+      // }));
       
     } 
     catch (error) {
       console.error('Error fetching student name:', error);
     }
   };
+  const fetchProfileInfo=async()=>{
+    console.log("profile section")
+    try{
+      const response=await axios.get(`http://localhost:20000/api/Profile/${id}`)
+      console.log(response.data.moreInfo)
+      setProfile(response.data.moreInfo);   
+     setProfile(prevProfile => ({
+      ...prevProfile,
+      ...response.data.moreInfo
 
+    }));   
+    }
+    catch (error) {
+      console.error("Error in fetching profile info:", error);
+    }
+  }
     useEffect(() => {
       fetchStudentName();
-    //  fetchProfileInfo(); // Always fetch profile info
+      fetchProfileInfo(); // Always fetch profile info
     }, [id]);
   return (
     <>
