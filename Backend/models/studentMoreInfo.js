@@ -16,7 +16,7 @@
     //required:true
   },
   domain:{
-    type:String
+    type:Array
   },
   location:{
     type:String,

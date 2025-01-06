@@ -8,8 +8,8 @@ import {assets,url} from '../assets/assets'
 
 const ViewMoreDetails = () => {
 const location = useLocation();
-const  id = location?.state?.studentID || localStorage.getItem('userId') || "defaultID"           
-localStorage.setItem('userId', id);                                                                                                                                                                                                                                     
+const  id = location?.state?.studentID || localStorage.getItem('ID') || "defaultID"           
+localStorage.setItem('ID', id);                                                                                                                                                                                                                                     
 console.log(id);
   const [studentName, setStudentName] = useState('');
   const [studentEmail, setStudentEmail] = useState('');
@@ -62,6 +62,7 @@ console.log(id);
       console.error("Error in fetching profile info:", error);
     }
   }
+  
     useEffect(() => {
       fetchStudentName();
       fetchProfileInfo(); // Always fetch profile info
@@ -73,7 +74,7 @@ console.log(id);
  
         <div className=' left-profile  p-3 mt-10'>
         <h4 className="student-name">
-        {studentName ? `Welcome ${studentName}` : "Loading..."}
+        {studentName ? ` ${studentName}` : "Loading..."}
 
   </h4>
    {/* <input type="file" accept='image/*' id="image" hidden /> 

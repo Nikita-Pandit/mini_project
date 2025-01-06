@@ -88,6 +88,26 @@ contact:student.contact
 });
 
 
+app.post("/api/Logout", async (req, res) => {
+  try {
+    const { userId } = req.body;
+    if (!userId) {
+      return res.status(400).json({ message: "User ID is required for logout" });
+    }
+
+    // If using session storage, destroy the session here.
+    // If using JWT, you can blacklist the token if needed or rely on expiration.
+
+    console.log(`User with ID ${userId} has logged out.`);
+
+    // Respond with a success message
+    res.status(200).json({ message: "Logout successful" });
+  } catch (error) {
+    console.error("Error during logout:", error);
+    res.status(500).json({ message: "Logout failed due to server error" });
+  }
+});
+
 
 
 app.listen(PORT, () => {

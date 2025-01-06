@@ -8,8 +8,8 @@ import Projects from "./pages/Projects"
 import ResearchDoubts from "./pages/ResearchDoubts"
 import Profile from "./pages/Profile";
 import ViewMoreDetails from './pages/ViewMoreDetails';
-// import Body from './components/body';
 import Login from "./pages/Login"
+
 
 const App = () => {
 
@@ -19,7 +19,6 @@ const App = () => {
     <Routes>
     <Route path="/" element={<Home/>}/>
     <Route path="/Profile" element={<Profile />} />
-
     <Route path="/Projects" element={<Projects/>}/>
     <Route path="/SignUp" element={<SignUp/>}/>
     <Route path="/Login" element={<Login/>}/>

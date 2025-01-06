@@ -1,12 +1,10 @@
-
 import React, { useEffect, useState } from 'react'
-// prevProfile is the previous state of the profile object before the update
 import { useLocation } from 'react-router-dom';
 import axios from "axios"
-// import { set } from 'mongoose'
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {assets,url} from '../assets/assets'
+
 
 const Profile = () => {
   console.log("hello profile")
@@ -19,6 +17,7 @@ const Profile = () => {
   const [studentName, setStudentName] = useState('');
   const [studentEmail, setStudentEmail] = useState('');
   const [studentContact, setStudentContact] = useState('');
+
   const [image,setImage]=useState(false)
   const [profile,setProfile]=useState({
     name:"",
@@ -30,11 +29,12 @@ const Profile = () => {
     leetcode: "",
     projects:  "",
     skills: "",
-    domain:"",
+    domain:[],
     location:"",
     branch:"",
     selectYear:"",
   })
+  const domainOptions = ["ML", "App Dev", "Web Dev", "Cyber Security"];
 
 
   const fetchStudentName = async () => {
@@ -43,7 +43,7 @@ const Profile = () => {
       setStudentName(response.data.name);
       setStudentEmail(response.data.email);
       setStudentContact(response.data.contact);
-      console.log(studentEmail) // Update student name from API response
+      console.log(studentEmail)
       setProfile(prevProfile => ({
         ...prevProfile,
         name: response.data.name
@@ -55,36 +55,73 @@ const Profile = () => {
     }
   };
 
-  const fetchProfileInfo=async()=>{
-    console.log("profile section")
-    try{
-      const response=await axios.get(`http://localhost:20000/api/Profile/${id}`)
-      console.log(response.data.moreInfo)
-      setProfile(response.data.moreInfo);   
-     setProfile(prevProfile => ({
-      ...prevProfile,
-      ...response.data.moreInfo 
-    }));   
-    }
-    catch (error) {
+  // const fetchProfileInfo=async()=>{
+  //   console.log("profile section")
+  //   try{
+  //     const response=await axios.get(`http://localhost:20000/api/Profile/${id}`)
+  //     const fetchedProfile=response.data.moreInfo
+  //     if (typeof fetchedProfile.domain === "string") {
+  //       fetchedProfile.domain = fetchedProfile.domain.split(",").map((item) => item.trim());
+  //     }
+  //     console.log(response.data.moreInfo)
+  //     console.log(fetchedProfile)
+  //       // setProfile(response.data.moreInfo);   
+  //    setProfile(prevProfile => ({
+  //     ...prevProfile,
+  //     ...fetchedProfile
+  //   }));   
+  //   }
+  //   catch (error) {
+  //     console.error("Error in fetching profile info:", error);
+  //   }
+  // }
+  const fetchProfileInfo = async () => {
+    console.log("profile section");
+    try {
+      const response = await axios.get(`http://localhost:20000/api/Profile/${id}`);
+      const fetchedProfile = response.data.moreInfo;
+      console.log("Domain",fetchedProfile.domain)
+      console.log("Type",typeof(fetchedProfile.domain))
+      // Ensure domain is an array
+      if (typeof fetchedProfile.domain === "string") {
+      console.log("split",fetchedProfile.domain.split(","))
+        fetchedProfile.domain = fetchedProfile.domain.split(",").map((item) => item.trim());
+      }
+  
+      console.log(fetchedProfile);
+      setProfile((prevProfile) => ({
+        ...prevProfile,
+        ...fetchedProfile,
+      }));
+    } catch (error) {
       console.error("Error in fetching profile info:", error);
-      //  toast.error("Failed to fetch profile info",{
-      //   style: { color: "#ff5722" } 
-      // });
     }
-  }
-
+  };
+  
   useEffect(() => {
     fetchStudentName();
     fetchProfileInfo(); // Always fetch profile info
   }, [id]);
   
 
-
+  const handleDomainSelect = (e) => {
+    const selectedDomain = e.target.value;
+    if (selectedDomain && !profile.domain.includes(selectedDomain)) {
+      setProfile((prevProfile) => ({
+        ...prevProfile,
+        domain: [...prevProfile.domain, selectedDomain],
+      }));
+    }
+  };
+  const removeDomain = (domainToRemove) => {
+    setProfile((prevProfile) => ({
+      ...prevProfile,
+      domain: prevProfile.domain.filter((domain) => domain !== domainToRemove),
+    }));
+  };
   const handleSave=async (e)=>{
     
 e.preventDefault()
-//console.log("handlesave")
 if(!image){
   toast.error("Image not selected")
   return null;
@@ -103,6 +140,7 @@ formData.append("image",image)
         },
     }
   );
+  console.log(response.data.profile)
   
     toast.success('profile info saved in the database successfully.', {
       style: { color: "#ff5722" } 
@@ -112,8 +150,9 @@ formData.append("image",image)
   } 
   catch (error) {
     console.error("Error saving profile info in the database:", error);
+    const customTextColor = "#0000FF"; 
      toast.error("Failed to save profile info in the database",{
-      style: { color: "#ff5722" } 
+      style: customTextColor,
     });
   }
   }
@@ -148,7 +187,22 @@ const handleChange=(e)=>{
 
 
         <input type="text" className="input-links  bg-zinc-500" placeholder='branch' onChange={handleChange} required name="branch" value={profile.branch}/>
-        <input type="text" className="input-links  bg-zinc-500" placeholder='selectYear' onChange={handleChange} required name="selectYear" value={profile.selectYear} />
+        {/* <input type="text" className="input-links  bg-zinc-500" placeholder='selectYear' onChange={handleChange} required name="selectYear" value={profile.selectYear} /> */}
+      <select value={profile.selectYear} onChange={handleChange}  name="selectYear" id="year" required className="input-links  bg-zinc-500">
+        <option value="">selectYear</option>
+        <option value="1st year">
+         1st year
+         </option>
+         <option value="2nd year">
+         2nd year
+         </option>
+         <option value="3rd year">
+         3rd year
+         </option>
+         <option value="4th year">
+            4th year
+            </option>
+      </select>
   </div>
         </div>
         <div className='bg-zinc-500  border-2 rounded-md outline-none w-full right-profile-info p-5'>
@@ -181,10 +235,88 @@ const handleChange=(e)=>{
             </div>
 
             <h1 className='text-2xl text-start mt-3  mb-2'>Domain</h1>
-            <div>
+            {/* <div>
                 <textarea  onChange={handleChange} className='bg-zinc-600 outline-none w-full border-2 rounded-md' name="domain" value={profile.domain}  required id=""></textarea>
+            </div> */}
+             {/* <div>
+            <select
+              className="bg-zinc-600 outline-none w-full border-2 rounded-md"
+              onChange={handleDomainSelect}
+            >
+              <option value="">Select Domain</option>
+              {domainOptions.map((domain) => (
+                <option key={domain} value={domain}>
+                  {domain}
+                </option>
+              ))}
+            </select>
+            <div className="flex flex-wrap mt-2">
+              {profile.domain.map((domain, index) => (
+                <div
+                  key={index}
+                  className="bg-blue-500 text-white px-3 py-1 rounded-full flex items-center gap-2 mr-2 mt-2"
+                >
+                  <span>{domain}</span>
+                  <button
+                    type="button"
+                    onClick={() => removeDomain(domain)}
+                    className="text-white bg-red-500 px-1 rounded-full"
+                  >
+                    ×
+                  </button>
+                </div>
+              ))}
             </div>
+            <div className="flex flex-wrap mt-2">
+  {profile.domain.map((domain, index) => (
+    <div
+      key={index}
+      className="bg-blue-500 text-white px-3 py-1 rounded-full flex items-center gap-2 mr-2 mt-2"
+    >
+      <span>{domain}</span>
+      <button
+        type="button"
+        onClick={() => removeDomain(domain)}
+        className="text-white bg-red-500 px-1 rounded-full"
+      >
+        ×
+      </button>
+    </div>
+  ))}
+</div>
 
+          </div> */}
+         
+         <div>
+  <select
+    className="bg-zinc-600 outline-none w-full border-2 rounded-md"
+    onChange={handleDomainSelect}
+  >
+    <option value="">Select Domain</option>
+    {domainOptions.map((domain) => (
+      <option key={domain} value={domain}>
+        {domain}
+      </option>
+    ))}
+  </select>
+  <div className="flex flex-wrap mt-2">
+    {profile.domain.map((domain, index) => (
+      <div
+        key={index}
+        className="bg-blue-500 text-white px-3 py-1 rounded-full flex items-center gap-2 mr-2 mt-2"
+      >
+        <span>{domain}</span>
+        <button
+          type="button"
+          onClick={() => removeDomain(domain)}
+          className="text-white bg-red-500 px-1 rounded-full"
+        >
+          ×
+        </button>
+      </div>
+    ))}
+  </div>
+</div>
         </div>
      </div>
      <div className='flex justify-center mt-5'>

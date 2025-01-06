@@ -12,13 +12,11 @@ const Login = () => {
   const handleSubmit=async (e)=>{
 e.preventDefault()
     try {
-      const response = await axios.post('http://localhost:20000/api/Login',{email,password});
-      // console.log('Login successful');
-    // toast.success('Login Successful', {
-    //   style: { color: "#ff5722" } 
-    // }); 
+    const response = await axios.post('http://localhost:20000/api/Login',{email,password});
     console.log(response.data)
-    if(response.data==="Login Successful"){
+    console.log(response.data.userMoreDetails)
+    console.log(response.data.message)
+    if(response.data.message==="Login Successful"){
       navigate("/Home")
     }
   }
