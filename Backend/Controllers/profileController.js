@@ -1,17 +1,18 @@
 
-const { JsonWebTokenError } = require("jsonwebtoken");
 const studentMoreInfo= require("../models/studentMoreInfo");
-const { get } = require("mongoose");
+
 const createProfileInfo = async (req, res) => {
   console.log("Request Body:", req.body);
-console.log("Uploaded File:", req.file)
+//console.log("Uploaded File:", req.file)
 const {id}=req.params;
   const {name,Bio, github,linkedin,leetcode,twitter,instagram,projects,skills,location,branch,selectYear,domain}=req.body
   try {
-      let image_filename = req.file ? req.file.filename : null;
-if (!image_filename) {
-    return res.status(400).json({ success: false, message: "Image upload failed" });
-}
+      // let image_filename = req.file ? req.file.filename : null;
+      //  let image_filename = `${req.file.filename}`
+// const image_filename = req.file ? `/uploads/${req.file.filename}` : null;
+// if (!image_filename) {
+//     return res.status(400).json({ success: false, message: "Image upload failed" });
+// }
 
       const profile = new studentMoreInfo({
         name,
@@ -28,13 +29,14 @@ if (!image_filename) {
     location,
     branch,
     selectYear,
-    image:  `/uploads/${image_filename}`,
+    // image:  `/uploads/${image_filename}`,
+    // image: image_filename,
     studentID:id
     })
 
     await profile.save();
     console.log(profile)
-  res.json({success:true,message:"Profile info saved in the db successfully."})
+  res.json({success:true,message:"Profile info saved in the db successfully.",profile})
   } catch (error) {
     console.error("Error in saving profile in the database:", error.message);
       res.json({ success: false, message: "Error" })

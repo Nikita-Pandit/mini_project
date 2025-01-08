@@ -30,10 +30,10 @@
     type:String,
     //required:true
   },
-  image:{
-    type:String,
-    //required:true
-  },
+  // image:{
+  //   type:String,
+  //   //required:true
+  // },
   studentID:String,
   name:String,
   })

@@ -9,7 +9,7 @@ import ResearchDoubts from "./pages/ResearchDoubts"
 import Profile from "./pages/Profile";
 import ViewMoreDetails from './pages/ViewMoreDetails';
 import Login from "./pages/Login"
-
+import ResetPassword from './pages/ResetPassword';
 
 const App = () => {
 
@@ -24,8 +24,8 @@ const App = () => {
     <Route path="/Login" element={<Login/>}/>
     <Route path="/ResearchDoubts" element={<ResearchDoubts/>}/>
     <Route path="/ViewMoreDetails" element={<ViewMoreDetails/>}/>
+    <Route path="/ResetPassword/:token" element={<ResetPassword/>}/>
     </Routes>
-    {/* <Body/> */}
     <Footer/>
    </Router>
   )

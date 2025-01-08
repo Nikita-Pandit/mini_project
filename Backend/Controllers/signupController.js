@@ -5,9 +5,14 @@ const signupController=async (req,res)=>{
     const {email,name,password,contact}=req.body
     console.log("Received data:",name,email,contact);
     try {
+// Check if the email already exists
+// const existingUser = await studentModel.findOne({ email });
+//          if (existingUser) {
+//              return res.status(400).json({ success: false, message: 'Email already registered.' });
+//          }
       // Generate a unique token
-      const verificationToken = crypto.randomBytes(32).toString('hex');
-  
+const verificationToken = crypto.randomBytes(32).toString('hex');
+const verificationTokenExpiry = Date.now() + 24 * 60 * 60 * 1000; // Token valid for 24 hours   
       // Create a new user
       const user = new studentModel({
         name,
@@ -15,8 +20,8 @@ const signupController=async (req,res)=>{
         contact,
         password,
         verificationToken,
-    });
-    
+        verificationTokenExpiry
+    });  
       await user.save();
   
       // Send the verification email

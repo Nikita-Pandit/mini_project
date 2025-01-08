@@ -9,6 +9,11 @@ const PORT = process.env.PORT;
 const cors=require("cors")
 app.use(cors())
 
+const bodyParser = require('body-parser');
+app.use(bodyParser.json());
+
+app.use('/uploads', express.static('uploads'));
+
 
 const jwt = require('jsonwebtoken');
 app.use(express.json())
@@ -19,6 +24,8 @@ const signupRoutes=require("./routes/signupRoutes")
 const loginRoutes=require("./routes/loginRoutes")
 const profileRoutes=require("./routes/profileRoutes")
 const projectRoutes=require("./routes/projectRoutes")
+const forgotPasswordRoutes=require("./routes/forgotPasswordRoutes")
+const resetPasswordRoutes=require("./routes/resetPasswordRoutes")
 
 const mongoose=require("mongoose");
 
@@ -32,6 +39,8 @@ app.use("/api",signupRoutes)
 app.use("/api",loginRoutes)
 app.use("/api",profileRoutes)
 app.use("/api",projectRoutes)
+app.use("/api",forgotPasswordRoutes)
+app.use("/api",resetPasswordRoutes)
 
 app.get('/verify', async (req, res) => {
   const { token } = req.query;

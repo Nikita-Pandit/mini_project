@@ -9,6 +9,7 @@ const navigate=useNavigate()
     try {
       //await axios.post('http://localhost:20000/api/Logout', { userId: localStorage.getItem('userId') });
       localStorage.removeItem('userId');
+      localStorage.removeItem("token")
       // navigate('/SignUp', { replace: true }); // Redirecting to SignUp page for now
       navigate('/SignUp');
     } catch (error) {

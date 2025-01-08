@@ -30,7 +30,7 @@ fetchData()
 },[branch,year,domain])
   return (
     <>
-     <div className='flex items-center justify-center mt-20 gap-8 bg-red-500' >
+     <div className='flex items-center justify-center mt-20 gap-8' >
    <select name="branch" id="branch" value={branch} onChange={(e)=>setBranch(e.target.value)} required className='text-black-500 bg-zinc-500 p-4 border-2 rounded-md outline-none border-none w-64'>
       <option value="">
 Select Branch
@@ -81,8 +81,8 @@ Select Domain
    </select>
      </div>
 
-     <div className='p-5 bg-green-500'>
-  <div className='p-5 justify-center bg-blue-500 flex flex-row flex-wrap gap-5'>
+     <div className='p-5'>
+  <div className='p-5 justify-center flex flex-row flex-wrap gap-5'>
   {
       data && data.length > 0 ? ( data.map((item,index)=>{
 return (
