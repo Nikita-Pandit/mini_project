@@ -11,15 +11,22 @@ const Login = () => {
   const [rememberMe, setRememberMe] = useState(false);
   const navigate = useNavigate()
   const isEmailValid = email.includes('@');
-  const isPasswordValid = password.length >= 6;
+  const isPasswordValid = password.length >= 4;
   const isFormValid = isEmailValid && isPasswordValid;
 // Access the backend URL from the environment variable
 const backendUrl = import.meta.env.VITE_BACKEND_URL;
   const handleSubmit=async (e)=>{
+    console.log("handlesubmit")
 e.preventDefault()
     try {
     const response = await axios.post('http://localhost:20000/api/Login',{email,password});
-    const id=response.data.userMoreDetails.studentID
+    console.log(response.data.user)
+    if(response.data.userMoreDetails){
+      const id=response.data.userMoreDetails.studentID
+    }
+    const id=response.data.user._id
+    console.log(id)
+    console.log(Login)
     if(response.data.token){
       if (rememberMe) {
         localStorage.setItem('token', response.data.token);
@@ -29,7 +36,8 @@ e.preventDefault()
       toast.success('Login Successful');
       setTimeout(()=>{
   //navigate('/Home');
-  navigate("/Profile", { state: { id } });
+  // navigate("/Profile", { state: { id } });
+    navigate("/Profile", { state: { id } });
       },7000)
     }
     // console.log(response.data.userMoreDetails)

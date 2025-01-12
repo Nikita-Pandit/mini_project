@@ -371,16 +371,30 @@
 // export default Profile
 
 
-
 import React, { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom';
 import axios from "axios"
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Select from "react-select"; // Install via npm install react-select
 
 
 
 const Profile = () => {
+  const domainOptions = [
+    { value: "Web Development", label: "Web Development" },
+    { value: "Data Science", label: "Data Science" },
+    { value: "Machine Learning", label: "Machine Learning" },
+    { value: "App Development", label: "App Development" },
+    { value: "UI/UX Design", label: "UI/UX Design" },
+  ];
+  const handleDomainChange = (selectedOptions) => {
+    setProfile((prevProfile) => ({
+      ...prevProfile,
+      domain: selectedOptions.map((option) => option.value),
+    }));
+  };
+  
   console.log("hello profile")
   const location = useLocation();
  const  id = location?.state?.id || localStorage.getItem('userId') || "defaultID"
@@ -405,6 +419,7 @@ const Profile = () => {
     location:"",
     branch:"",
     selectYear:"",
+    image:"/images/default_image.jpg"
   })
  
   const fetchStudentName = async () => {
@@ -429,12 +444,15 @@ const Profile = () => {
     console.log("profile section")
     try{
       const response=await axios.get(`http://localhost:20000/api/Profile/${id}`)
-      const fetchedProfile=response.data.moreInfo
-   
-     setProfile(prevProfile => ({
-      ...prevProfile,
-      ...fetchedProfile
-    }));   
+      if(response.data.success){
+        const fetchedProfile=response.data.moreInfo
+        console.log(fetchedProfile)
+          setProfile(prevProfile => ({
+           ...prevProfile,
+           ...fetchedProfile
+         }));   
+      }
+     
     }
     catch (error) {
       console.error("Error in fetching profile info:", error);
@@ -450,7 +468,7 @@ const handleChange=(e)=>{
 e.preventDefault()
     try {
       const response = await axios.post(`http://localhost:20000/api/Profile/${id}`,profile);
-  //console.log(response.data.profile.image)
+      console.log("handleSave data",response.data.profile);
     toast.success('profile info saved in the database successfully.', {
       style: { color: "#ff5722" } 
      
@@ -465,6 +483,70 @@ e.preventDefault()
     });
   }
   }
+  const handleImageChange = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const formData = new FormData();
+    formData.append("image", file);
+
+    try {
+      const response = await axios.post(`http://localhost:20000/api/Profile/${id}/uploadImage`, formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      setProfile(prevProfile => ({ ...prevProfile, image: response.data.image }));
+      console.log(response.data.image) //Backend url
+      //console.log(profile)
+      toast.success("Image uploaded successfully!");
+    } catch (error) {
+      console.error("Error uploading image:", error);
+      toast.error("Failed to upload image.");
+    }
+  };
+  // Custom styles for react-select
+const customStyles = {
+  control: (base) => ({
+    ...base,
+    backgroundColor:"#374151",
+    color: "#FFFFFF", 
+    border:"2px solid rgb(80, 158, 179)",
+    borderRadius: "10px; outline:none",
+    boxShadow: "none",
+    padding:"10px"
+  }),
+  menu: (base) => ({
+    ...base,
+    backgroundColor:"#71717A",
+    color: "#FFFFFF", 
+  }),
+  option: (base, state) => ({
+    ...base,
+    backgroundColor: state.isFocused ? "#374151" : "#1F2937", // Tailwind bg-zinc-700 on hover
+    color: "#FFFFFF", 
+    "&:active": {
+      backgroundColor: "#4B5563", 
+    },
+  }),
+  multiValue: (base) => ({
+    ...base,
+   backgroundColor:"#71717A",
+    color: "#FFFFFF", 
+    borderRadius: "0.375rem", 
+  }),
+  multiValueLabel: (base) => ({
+    ...base,
+    color: "#FFFFFF",
+  }),
+  multiValueRemove: (base) => ({
+    ...base,
+    color: "#FFFFFF", 
+    "&:hover": {
+      backgroundColor: "#4B5563", 
+      color: "#FFFFFF",
+    },
+  }),
+};
+
   useEffect(()=>{
     fetchStudentName()
     fetchProfileInfo()
@@ -476,12 +558,29 @@ e.preventDefault()
       <ToastContainer />
      <div className='profile-container  p-5 bg-zinc-700 flex'>
  
-        <div className=' left-profile  p-3 mt-10'>
+        <div className=' left-profile p-3 mt-10'>
         <h4 className="student-name">
         {studentName ? `Welcome ${studentName}` : "Loading..."}
-
   </h4>
+ 
+<div className='flex items-center justify-center mt-3 mb-3'>
+<img
+  src={profile.image.startsWith("/uploads/") 
+         ? `http://localhost:20000${profile.image}` 
+         : `http://localhost:20000/images/default_image.jpg`} 
+  alt="Profile"
+  className="profile-image object-contain rounded-lg"
+  onClick={() => document.getElementById("imageUpload").click()}
+  style={{ width: "180px", height: "180px", cursor: "pointer"}}
+/>
 
+<input
+type="file"
+id="imageUpload"
+style={{ display: "none" }}
+onChange={handleImageChange}
+/>
+</div>
   <div className='flex flex-col gap-3'>
   <input type="email"    className="input-links bg-zinc-500" value={studentEmail}  placeholder="kiit mail" />
 
@@ -536,12 +635,22 @@ e.preventDefault()
     
             <h1 className='text-2xl text-start mt-3  mb-2'>Skills</h1>
             <div>
-                <textarea  onChange={handleChange} className='bg-zinc-600 outline-none w-full border-2 rounded-md' name="skills" value={profile.skills}  required id=""></textarea>
+                <textarea  onChange={handleChange} className='bg-zinc-700 outline-none w-full border-2 rounded-md' name="skills" value={profile.skills}  required id=""></textarea>
             </div>
 
             <h1 className='text-2xl text-start mt-3  mb-2'>Domain</h1>
-            <div>
-                <textarea  onChange={handleChange} className='bg-zinc-600 outline-none w-full border-2 rounded-md' name="domain" value={profile.domain}  required id=""></textarea>
+            <div className=''>
+                {/* <textarea  onChange={handleChange} className='bg-zinc-600 outline-none w-full border-2 rounded-md' name="domain" value={profile.domain}  required id=""></textarea> */}
+                <Select
+      isMulti
+      options={domainOptions}
+      value={domainOptions.filter((option) =>
+        profile.domain.includes(option.value)
+      )}
+      onChange={handleDomainChange}
+      styles={customStyles} // Apply custom styles here
+      className=""
+    />
             </div>
            
           

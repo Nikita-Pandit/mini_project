@@ -13,29 +13,27 @@
     projects:String,
    skills:{
     type:String,
-    //required:true
+
   },
   domain:{
-    type:Array
+    type:[String] //Array of strings
   },
   location:{
     type:String,
-    ///required:true
   },
   branch:{
     type:String,
-   // required:true
+
   },
   selectYear:{
     type:String,
-    //required:true
   },
-  // image:{
-  //   type:String,
-  //   //required:true
-  // },
   studentID:String,
   name:String,
+  image:{
+    type:String,
+    default:"/images/default_image.jpg",
+  }
   })
 const studentMoreInfo=mongoose.model("studentMoreInfo",studentMoreInfoSchema)
 module.exports=studentMoreInfo
