@@ -11,17 +11,17 @@ const SignUp = () => {
   const navigate = useNavigate();
   
   useEffect(() => {
-    // Extract token from query params
+    //Extract token from query params
     const queryParams = new URLSearchParams(location.search);
     const id = queryParams.get('id');
   
     if (id) {
       console.log('Id received from URL:', id);
-
-      navigate("/Profile", { state: { id } });
-  
+localStorage.setItem("userId",id)
+    //  navigate("/Profile", { state: { id } });
+  navigate("/Profile")
     }
-  }, [location, navigate]);
+  }, [navigate,location]);
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -36,7 +36,7 @@ const SignUp = () => {
     
     try {
       const response = await axios.post('http://localhost:20000/api/SignUp', { name, email, contact, password });
-      
+ 
       const customTextColor = "#0000FF"; // Your custom text color
       toast.success('Verification email sent! Please check your inbox.', {
         style: {

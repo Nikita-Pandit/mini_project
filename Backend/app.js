@@ -68,7 +68,8 @@ app.get('/verify', async (req, res) => {
       }
 
       // res.json({ message: 'Email verified successfully!' });
-       return res.redirect(`http://localhost:5173/SignUp?id=${userIDMatchWithToken._id}`);
+      return res.redirect(`http://localhost:5173/SignUp?id=${userIDMatchWithToken._id}`);
+      // return res.redirect(`http://localhost:5173/Profile`);
   } catch (error) {
       console.error('Error during verification:', error);
       res.status(400).json({ error: 'Verification failed' });

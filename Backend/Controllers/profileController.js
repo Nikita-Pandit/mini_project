@@ -138,7 +138,7 @@ try{
   const {id}=req.params
 const imagePath = `/uploads/${req.file.filename}`;
 await studentMoreInfo.findOneAndUpdate({ studentID: id }, { image: imagePath });
-res.json({ success: true, image: imagePath });
+  res.json({ success: true, image: imagePath })
 }
 catch(error){
 res.status(500).json({ success: false, message: "Error uploading image.", error: error.message });

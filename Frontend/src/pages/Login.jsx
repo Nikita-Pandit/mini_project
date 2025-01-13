@@ -25,6 +25,7 @@ e.preventDefault()
       const id=response.data.userMoreDetails.studentID
     }
     const id=response.data.user._id
+    localStorage.setItem("userId",id)
     console.log(id)
     console.log(Login)
     if(response.data.token){
@@ -36,8 +37,8 @@ e.preventDefault()
       toast.success('Login Successful');
       setTimeout(()=>{
   //navigate('/Home');
-  // navigate("/Profile", { state: { id } });
-    navigate("/Profile", { state: { id } });
+  navigate("/Profile");
+    // navigate("/Profile", { state: { id } });
       },7000)
     }
     // console.log(response.data.userMoreDetails)
