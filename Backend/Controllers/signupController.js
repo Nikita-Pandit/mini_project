@@ -1,7 +1,9 @@
 const crypto = require('crypto');
 const studentModel=require("../models/studentModel")
 const sendVerificationMail = require('../utils/sendVerificationMail');
+
 const signupController=async (req,res)=>{
+    const role = req.query.role;
     const {email,name,password,contact}=req.body
     console.log("Received data:",name,email,contact);
     try {
@@ -25,7 +27,7 @@ const verificationTokenExpiry = Date.now() + 24 * 60 * 60 * 1000; // Token valid
       await user.save();
   
       // Send the verification email
-      const emailSent = await sendVerificationMail(email, verificationToken);
+      const emailSent = await sendVerificationMail(email, verificationToken,role);
   
       if (emailSent) {
           res.status(201).json({ message: 'User created. Verification email sent!' });

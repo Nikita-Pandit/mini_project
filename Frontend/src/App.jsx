@@ -10,7 +10,7 @@ import Profile from "./pages/Profile";
 import ViewMoreDetails from './pages/ViewMoreDetails';
 import Login from "./pages/Login"
 import ResetPassword from './pages/ResetPassword';
-
+import TeacherProfile from './pages/TeacherProfile';
 const App = () => {
 
   return (
@@ -25,6 +25,7 @@ const App = () => {
     <Route path="/ResearchDoubts" element={<ResearchDoubts/>}/>
     <Route path="/ViewMoreDetails" element={<ViewMoreDetails/>}/>
     <Route path="/ResetPassword/:token" element={<ResetPassword/>}/>
+    <Route path="/TeacherProfile" element={<TeacherProfile/>}/>
     </Routes>
     <Footer/>
    </Router>

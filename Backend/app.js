@@ -50,6 +50,7 @@ app.use("/api",resetPasswordRoutes)
 
 app.get('/verify', async (req, res) => {
   const { token } = req.query;
+  const {role}=req.query
   try {
     console.log("verify route 2")
       // Find the user with the token
@@ -68,7 +69,7 @@ app.get('/verify', async (req, res) => {
       }
 
       // res.json({ message: 'Email verified successfully!' });
-      return res.redirect(`http://localhost:5173/SignUp?id=${userIDMatchWithToken._id}`);
+      return res.redirect(`http://localhost:5173/SignUp?id=${userIDMatchWithToken._id}&role=${role}`);
       // return res.redirect(`http://localhost:5173/Profile`);
   } catch (error) {
       console.error('Error during verification:', error);
