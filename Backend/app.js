@@ -4,6 +4,7 @@ const app=express()
 const dotenv=require("dotenv")
 const config=dotenv.config()
 const studentModel=require("./models/studentModel")
+const teacherModel=require("./models/teacherModel")
 const PORT = process.env.PORT;
 const path = require("path");
 
@@ -32,7 +33,7 @@ const profileRoutes=require("./routes/profileRoutes")
 const projectRoutes=require("./routes/projectRoutes")
 const forgotPasswordRoutes=require("./routes/forgotPasswordRoutes")
 const resetPasswordRoutes=require("./routes/resetPasswordRoutes")
-
+const teacherProfileRoutes=require("./routes/teacherProfileRoutes")
 const mongoose=require("mongoose");
 
 const studentMoreInfo = require("./models/studentMoreInfo");
@@ -47,21 +48,37 @@ app.use("/api",profileRoutes)
 app.use("/api",projectRoutes)
 app.use("/api",forgotPasswordRoutes)
 app.use("/api",resetPasswordRoutes)
+app.use("/api",teacherProfileRoutes)
 
 app.get('/verify', async (req, res) => {
   const { token } = req.query;
   const {role}=req.query
   try {
     console.log("verify route 2")
+    let userIDMatchWithToke;
+    let user;
       // Find the user with the token
-      const userIDMatchWithToken=await studentModel.findOne({verificationToken: token})
-
-      const user = await studentModel.findOneAndUpdate(
+      if(role=="student"){
+        userIDMatchWithToken =await studentModel.findOne({verificationToken: token})
+         user = await studentModel.findOneAndUpdate(
         
           { verificationToken: token },
           { isVerified: true, verificationToken: null },
           { new: true }
       );
+      }
+    else   { 
+      userIDMatchWithToken=await teacherModel.findOne({verificationToken: token})
+
+       user = await teacherModel.findOneAndUpdate(
+        
+        { verificationToken: token },
+        { isVerified: true, verificationToken: null },
+        { new: true }
+    );
+  }
+
+    
       console.log(user)
 // await user.save()
       if (!user) {
@@ -104,6 +121,28 @@ contact:student.contact
   }
 });
 
+
+
+app.get('/api/teacher/:id', async (req, res) => {
+  const { id } = req.params; // Extract the id from the request params
+  try {
+    // Find the student by ID in the database
+    const teacher = await teacherModel.findById(id);
+    //const moreinfo=await studentMoreInfo
+    if (!teacher) {
+      return res.status(404).json({ message: 'Student not found' });
+    }
+
+    // Send the student name as a response
+    res.status(200).json({ name: teacher.name,
+email:teacher.email,
+contact:teacher.contact
+     });
+  } catch (error) {
+    console.error('Error fetching student:', error);
+    res.status(500).json({ error: 'Error fetching student' });
+  }
+});
 
 app.post("/api/Logout", async (req, res) => {
   try {

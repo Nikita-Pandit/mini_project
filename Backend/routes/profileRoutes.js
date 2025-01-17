@@ -1,4 +1,5 @@
 const {createProfileInfo,getProfileInfo,getProfileImage}=require("../Controllers/profileController")
+// const {createProfileInfo,getProfileInfo,getProfileImage}=require("../Controllers/teacherProfileController")
 const express=require("express")
 const multer=require("multer")
 const router=express.Router();
@@ -12,8 +13,22 @@ destination: (req, file, cb) => cb(null, "uploads/"),
 
 
 const upload = multer({ storage: storage})
+
+
+//Student
 router.post("/Profile/:id",createProfileInfo);
 
 router.post("/Profile/:id/uploadImage",upload.single('image'),getProfileImage);
 router.get("/Profile/:id",getProfileInfo)
+//-------------------------------------------
+
+
+//Student
+router.post("/Profile/:id",createProfileInfo);
+
+router.post("/Profile/:id/uploadImage",upload.single('image'),getProfileImage);
+router.get("/Profile/:id",getProfileInfo)
+//-------------------------------------------
+
+
 module.exports=router
