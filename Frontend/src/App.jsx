@@ -18,7 +18,7 @@ const App = () => {
     <StudentHeader/>
     <Routes>
     <Route path="/" element={<Home/>}/>
-    <Route path="/Profile" element={<Profile />} />
+ 
     <Route path="/Projects" element={<Projects/>}/>
     <Route path="/SignUp" element={<SignUp/>}/>
     <Route path="/Login" element={<Login/>}/>
@@ -26,6 +26,7 @@ const App = () => {
     <Route path="/ViewMoreDetails" element={<ViewMoreDetails/>}/>
     <Route path="/ResetPassword/:token" element={<ResetPassword/>}/>
     <Route path="/TeacherProfile" element={<TeacherProfile/>}/>
+    <Route path="/Profile" element={<Profile />} />
     </Routes>
     <Footer/>
    </Router>

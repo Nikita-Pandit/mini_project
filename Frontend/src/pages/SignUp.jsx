@@ -127,12 +127,18 @@ const SignUp = () => {
 
     if (id) {
       console.log('Id received from URL:', id);
-      localStorage.setItem("userId", id);
       console.log(role);
       if(role==="student"){
+        console.log("role inside student:",role)
+        localStorage.setItem("studentId", id);
         navigate("/Profile");
       }
-     else  navigate("/TeacherProfile");
+     else  
+     {
+      console.log("role inside student:",role)
+      localStorage.setItem("teacherId", id);
+     navigate("/TeacherProfile");
+     }
     }
   }, [navigate, location]);
 

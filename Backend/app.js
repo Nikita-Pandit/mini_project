@@ -123,11 +123,11 @@ contact:student.contact
 
 
 
-app.get('/api/teacher/:id', async (req, res) => {
-  const { id } = req.params; // Extract the id from the request params
+app.get('/api/teacher/:teacherId', async (req, res) => {
+  const { teacherId } = req.params; // Extract the id from the request params
   try {
     // Find the student by ID in the database
-    const teacher = await teacherModel.findById(id);
+    const teacher = await teacherModel.findById(teacherId);
     //const moreinfo=await studentMoreInfo
     if (!teacher) {
       return res.status(404).json({ message: 'Student not found' });

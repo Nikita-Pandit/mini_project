@@ -6,14 +6,19 @@ import React, {useEffect,useState} from 'react'
 const StudentHeader = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 const navigate=useNavigate()
-const userId=localStorage.getItem("userId") 
+const userId=localStorage.getItem("studentId") || localStorage.getItem("teacherId")
+// const userId=localStorage.getItem("userId")
 const [image,setImage]=useState("/images/default_image.jpg")
 const [flag,setFlag]=useState(false)
   const handleLogout = async (e) => {
     e.preventDefault(); // Prevent the default behavior of the link
     try {
       //await axios.post('http://localhost:20000/api/Logout', { userId: localStorage.getItem('userId') });
-      localStorage.removeItem('userId');
+      if( localStorage.getItem('studentId')){
+        localStorage.removeItem('studentId');
+      }
+
+      else  localStorage.removeItem('teacherId');
       localStorage.removeItem("token")
       // navigate('/SignUp', { replace: true }); // Redirecting to SignUp page for now
       navigate('/SignUp');
@@ -60,11 +65,27 @@ const [flag,setFlag]=useState(false)
             <div >
             <ul className=' flex gap-4 items-end'>
                 <li><Link to="/">Home</Link></li>
-                <li><Link to="/Profile">Profile</Link></li>
+                
+                {userId ?                
+                (                 
+                <>                 {
+                    localStorage.getItem("studentId")?(<li><Link to="/Profile">Profile</Link></li>):(<li><Link to="/TeacherProfile">Profile</Link></li>)
+                  }
+                {/* <li><Link to="/Profile">Profile</Link></li>  */}
+                <li><Link to="/Projects">Projects</Link></li>
+                 <li><Link to="/ResearchDoubts">Research Doubts</Link></li> 
+                 </> ) :
+                  ( <> <li className="text-gray-500 cursor-not-allowed" title="Login required">Profile</li>
+                   <li className="text-gray-500 cursor-not-allowed" title="Login required">Projects</li>
+                    <li className="text-gray-500 cursor-not-allowed" title="Login required">Research Doubts</li> </> )}  
+
+              
+                {/* <li><Link to="/Profile">Profile</Link></li>
                 <li><Link to="/Projects">Projects</Link></li>
                            
-                <li><Link to="/ResearchDoubts">Research Doubts</Link></li>
+                 <li><Link to="/ResearchDoubts">Research Doubts</Link></li> */}
                 {
+
   userId ? (
     flag ? (
       <div className="relative">

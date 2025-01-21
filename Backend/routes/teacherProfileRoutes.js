@@ -17,9 +17,9 @@ const upload = multer({ storage: storage})
 
 
 //teacher
-router.post("/teacherProfile/:id",createTeacherProfileInfo);
-router.post("/teacherProfile/:id/uploadImage",upload.single('image'),getTeacherProfileImage);
-router.get("/teacherProfile/:id",getTeacherProfileInfo)
+router.post("/teacherProfile/:teacherId",createTeacherProfileInfo);
+router.post("/teacherProfile/:teacherId/uploadImage",upload.single('image'),getTeacherProfileImage);
+router.get("/teacherProfile/:teacherId",getTeacherProfileInfo)
 //-------------------------------------------
 
 

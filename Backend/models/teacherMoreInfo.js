@@ -11,10 +11,7 @@
     twitter:String,
 
   
-   skills:{
-    type:String,
-
-  },
+  
   domain:{
     type:[String] //Array of strings
   },
@@ -22,7 +19,7 @@
     type:String,
   },
 
-  studentID:String,
+  teacherID:String,
   name:String,
   image:{
     type:String,

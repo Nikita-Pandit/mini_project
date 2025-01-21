@@ -14,55 +14,7 @@ const Teacherprofile = () => {
     { value: "App Development", label: "App Development" },
     { value: "UI/UX Design", label: "UI/UX Design" },
   ];
-  // const domainOptions = [
-  //   {
-  //     label: "Web Development",
-  //     options: [
-  //       { value: "Frontend Development", label: "Frontend Development" },
-  //       { value: "Backend Development", label: "Backend Development" },
-  //       { value: "Fullstack Development", label: "Fullstack Development" }
-  //     ],
-  //   },
-  //   {
-  //     label: "Data Science",
-  //     options: [
-  //       { value: "Data Analysis", label: "Data Analysis" },
-  //       { value: "Data Visualization", label: "Data Visualization" },
-  //       { value: "Big Data", label: "Big Data" }
-  //     ],
-  //   },
-  //   {
-  //     label: "Machine Learning",
-  //     options: [
-  //       { value: "Supervised Learning", label: "Supervised Learning" },
-  //       { value: "Unsupervised Learning", label: "Unsupervised Learning" },
-  //       { value: "Deep Learning", label: "Deep Learning" },
-  //     ],
-  //   },
-  //   {
-  //     label: "App Development",
-  //     options: [
-  //       { value: "Android Development", label: "Android Development" },
-  //       { value: "iOS Development", label: "iOS Development" },
-  //       { value: "Cross-Platform Development", label: "Cross-Platform Development" },
-  //     ],
-  //   },
-  //   {
-  //     label: "UI/UX Design",
-  //     options: [
-  //       { value: "Wireframing", label: "Wireframing" },
-  //       { value: "Prototyping", label: "Prototyping" },
-  //       { value: "User Research", label: "User Research" },
-  //     ],
-  //   },
-  // ];
   
-  // const handleDomainChange = (selectedOptions) => {
-  //   setProfile((prevProfile) => ({
-  //     ...prevProfile,
-  //     domain: selectedOptions.map((option) => option.value),
-  //   }));
-  // };
 
   const handleDomainChange = (selectedOptions) => {
     setProfile((prevProfile) => ({
@@ -72,8 +24,8 @@ const Teacherprofile = () => {
   };
   
 
-  const id = localStorage.getItem('userId') || "defaultID";
-
+  const teacherId = localStorage.getItem('teacherId') || "defaultID";
+   console.log("TeacherId")
   const [teacherName, setTeacherName] = useState('');
   const [teacherEmail, setTeacherEmail] = useState('');
   const [teacherContact, setTeacherContact] = useState('');
@@ -85,7 +37,6 @@ const Teacherprofile = () => {
     linkedin: "",
     twitter: "",
 
-    skills: "",
     domain: '',
     location: "",
 
@@ -94,7 +45,7 @@ const Teacherprofile = () => {
 
   const fetchTeacherName = async () => {
     try {
-      const response = await axios.get(`http://localhost:20000/api/teacher/${id}`);
+      const response = await axios.get(`http://localhost:20000/api/teacher/${teacherId}`);
       setTeacherName(response.data.name);
       setTeacherEmail(response.data.email);
       setTeacherContact(response.data.contact);
@@ -109,7 +60,7 @@ const Teacherprofile = () => {
 
   const fetchTeacherProfileInfo = async () => {
     try {
-      const response = await axios.get(`http://localhost:20000/api/teacherProfile/${id}`);
+      const response = await axios.get(`http://localhost:20000/api/teacherProfile/${teacherId}`);
       if (response.data.success) {
         const fetchedProfile = response.data.moreInfo;
         setProfile(prevProfile => ({
@@ -121,7 +72,10 @@ const Teacherprofile = () => {
       console.error("Error in fetching profile info:", error);
     }
   };
-
+  useEffect(() => {
+    fetchTeacherName();
+    fetchTeacherProfileInfo();
+  }, [teacherId]);
   const handleChange = (e) => {
     const { name, value } = e.target;
     setProfile((prevProfile) => ({ ...prevProfile, [name]: value }));
@@ -130,7 +84,7 @@ const Teacherprofile = () => {
   const handleSave = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(`http://localhost:20000/api/teacherProfile/${id}`, profile);
+      const response = await axios.post(`http://localhost:20000/api/teacherProfile/${teacherId}`, profile);
       toast.success('Profile info saved in the database successfully.', {
         style: { color: "#ff5722" }
       });
@@ -152,7 +106,7 @@ const Teacherprofile = () => {
     formData.append("image", file);
 
     try {
-      const response = await axios.post(`http://localhost:20000/api/teacherProfile/${id}/uploadImage`, formData, {
+      const response = await axios.post(`http://localhost:20000/api/teacherProfile/${teacherId}/uploadImage`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
       setProfile(prevProfile => ({ ...prevProfile, image: response.data.image }));
@@ -206,10 +160,7 @@ const Teacherprofile = () => {
     }),
   };
 
-  useEffect(() => {
-    fetchTeacherName();
-    fetchTeacherProfileInfo();
-  }, [id]);
+
 
   return (
     <>
@@ -312,17 +263,7 @@ const Teacherprofile = () => {
               </div>
             </div>
 
-            <h1 className='text-2xl text-start mt-3 mb-2'>Skills</h1>
-            <div>
-              <textarea
-                onChange={handleChange}
-                className='bg-zinc-700 outline-none w-full border-2 rounded-md'
-                name="skills"
-                value={profile.skills}
-                required
-                disabled={!isEditing} // DISABLE BASED ON isEditing
-              ></textarea>
-            </div>
+         
             <h1 className='text-2xl text-start mt-3 mb-2'>Domain</h1>
             <div>
               <Select
