@@ -69,15 +69,19 @@ Select Year
       <option value="">
 Select Domain
       </option>
-      <option value="web development">
+      <option value="Web Development">
          web development
          </option>
-         <option value="ML"> 
+         <option value="Machine Learning"> 
          ML
          </option>
          <option value="App Development">
          App Development
          </option>
+         <option value=" UI/UX Design">
+         UI/UX Design
+         </option>
+        
    </select>
      </div>
 

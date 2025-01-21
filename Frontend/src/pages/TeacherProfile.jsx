@@ -4,9 +4,9 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Select from "react-select"; // Install via npm install react-select
 
-const Teacherprofile = () => {
+const Teacherprofile = () => {// NEW STATE
   const [isEditing, setIsEditing] = useState(false); // NEW STATE
-
+  const [isFirstVisit, setIsFirstVisit] = useState(true); 
   const domainOptions = [
     { value: "Web Development", label: "Web Development" },
     { value: "Data Science", label: "Data Science" },
@@ -67,6 +67,8 @@ const Teacherprofile = () => {
           ...prevProfile,
           ...fetchedProfile
         }));
+        setIsFirstVisit(false); 
+        setIsEditing(false); 
       }
     } catch (error) {
       console.error("Error in fetching profile info:", error);
@@ -88,6 +90,8 @@ const Teacherprofile = () => {
       toast.success('Profile info saved in the database successfully.', {
         style: { color: "#ff5722" }
       });
+      setIsEditing(false); // Exit editing mode
+      setIsFirstVisit(false); 
        // Emit custom event
        const event = new Event("profileUpdated");
        window.dispatchEvent(event); // Dispatch the event globally
@@ -179,7 +183,7 @@ const Teacherprofile = () => {
     : `http://localhost:20000/images/default_image.jpg`}
   alt="Profile"
   className="profile-image object-contain rounded-lg"
-  onClick={() => isEditing && document.getElementById("imageUpload").click()} // Prevent click if not editing
+  onClick={() => (isEditing || isFirstVisit) && document.getElementById("imageUpload").click()} // Prevent click if not editing
   style={{ width: "180px", height: "180px", cursor: isEditing ? "pointer" : "default" }}
 />
 <input
@@ -187,7 +191,7 @@ const Teacherprofile = () => {
   id="imageUpload"
   style={{ display: "none" }}
   onChange={handleImageChange}
-  disabled={!isEditing} // Disable file input if not in editing mode
+  disabled={!isEditing && !isFirstVisit} // Disable file input if not in editing mode
 />
 
             </div>
@@ -206,7 +210,7 @@ const Teacherprofile = () => {
                 required
                 name="location"
                 value={profile.location}
-                disabled={!isEditing} // DISABLE BASED ON isEditing
+                disabled={!isEditing && !isFirstVisit} // DISABLE BASED ON isEditing
               />
               <input
                 type="tel"
@@ -227,7 +231,7 @@ const Teacherprofile = () => {
               name="Bio"
               value={profile.Bio}
               required
-              disabled={!isEditing} // DISABLE BASED ON isEditing
+              disabled={!isEditing && !isFirstVisit} // DISABLE BASED ON isEditing
             ></textarea>
             <h1 className='text-2xl text-start mt-3 mb-2'>Social media links</h1>
             <div className='border-blue-300 flex flex-row bg-zinc-700 p-5 border-2 rounded-md outline-none'>
@@ -238,7 +242,7 @@ const Teacherprofile = () => {
                   name="github"
                   onChange={handleChange}
                   value={profile.github}
-                  disabled={!isEditing} // DISABLE BASED ON isEditing
+                  disabled={!isEditing && !isFirstVisit} // DISABLE BASED ON isEditing
                 />
                 <input
                   placeholder="LinkedIn Link"
@@ -246,7 +250,7 @@ const Teacherprofile = () => {
                   name="linkedin"
                   onChange={handleChange}
                   value={profile.linkedin}
-                  disabled={!isEditing} // DISABLE BASED ON isEditing
+                  disabled={!isEditing && !isFirstVisit} // DISABLE BASED ON isEditing
                 />
               
               </div>
@@ -258,7 +262,7 @@ const Teacherprofile = () => {
                   className="bg-zinc-500 input-links"
                   name="twitter"
                   value={profile.twitter}
-                  disabled={!isEditing} // DISABLE BASED ON isEditing
+                  disabled={!isEditing && !isFirstVisit}  // DISABLE BASED ON isEditing
                 />
               </div>
             </div>
@@ -274,7 +278,7 @@ const Teacherprofile = () => {
                 )}
                 onChange={handleDomainChange}
                 styles={customStyles}
-                isDisabled={!isEditing} // DISABLE BASED ON isEditing
+                isDisabled={!isEditing && !isFirstVisit} // DISABLE BASED ON isEditing
               /> 
 
             </div>
@@ -284,14 +288,17 @@ const Teacherprofile = () => {
           <button
             type="button"
             className='text-center px-5 py-2 bg-green-500 rounded-lg mr-3'
-            onClick={() => setIsEditing(true)} // ENABLE EDIT MODE
+            onClick={() =>{
+              setIsEditing(true)
+              setIsFirstVisit(false)
+            }} // ENABLE EDIT MODE
           >
             Edit
           </button>
           <button
             type="submit"
             className='text-center px-5 py-2 bg-blue-500 rounded-lg'
-            disabled={!isEditing} // DISABLE IF NOT EDITING
+            disabled={!isEditing && !isFirstVisit} // DISABLE IF NOT EDITING
           >
             Save
           </button>

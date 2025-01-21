@@ -31,8 +31,17 @@ const createTeacherProfileInfo = async (req, res) => {
 const {teacherId}=req.params;
   const {name,Bio, github,linkedin,twitter,location,domain,image}=req.body
   try {
-      const profile = new teacherMoreInfo({
-        name,
+    const matchID=await teacherMoreInfo.findOne({   teacherID:teacherId})
+    if(matchID){
+  const updated=    await teacherMoreInfo.findOneAndUpdate(
+        { teacherID:teacherId},
+        {name,Bio, github,linkedin,twitter,location,domain,image}
+          )
+    }
+    
+    else{
+      profile = new teacherMoreInfo({
+             name,
     Bio,
     github,
     linkedin,
@@ -42,9 +51,10 @@ const {teacherId}=req.params;
 
     teacherID:teacherId,
     image
+  
     })
-
     await profile.save();
+    }
     console.log("After Saving",profile)
   res.json({success:true,message:"Profile info saved in the db successfully.",profile})
   } catch (error) {
